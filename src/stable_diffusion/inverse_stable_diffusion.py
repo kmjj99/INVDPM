@@ -126,7 +126,7 @@ class InversableStableDiffusionPipeline(ModifiedStableDiffusionPipeline):
         new_text_embeddings=None,
         latents: Optional[torch.FloatTensor] = None,
         num_inference_steps: int = 10,
-        guidance_scale: float = 7.5,
+        guidance_scale: float = 1.0,
         callback: Optional[Callable[[int, int, torch.FloatTensor], None]] = None,
         callback_steps: Optional[int] = 1,
         inverse_opt=True,
@@ -329,8 +329,8 @@ class InversableStableDiffusionPipeline(ModifiedStableDiffusionPipeline):
         return latents
 
     @torch.inference_mode()
-    def fixedpoint_correction(self, x, s, t, x_t, r=None, order=1, n_iter=500, step_size=0.1, th=1e-3, 
-                                model_s_output=None, model_r_output=None, text_embeddings=None, guidance_scale=3.0, 
+    def fixedpoint_correction(self, x, s, t, x_t, r=None, order=1, n_iter=50, step_size=0.1, th=1e-3, 
+                                model_s_output=None, model_r_output=None, text_embeddings=None, guidance_scale=1.0, 
                                 scheduler=False, factor=0.5, patience=20, anchor=False, warmup=True, warmup_time=20):
         do_classifier_free_guidance = guidance_scale > 1.0
         if order==1:
